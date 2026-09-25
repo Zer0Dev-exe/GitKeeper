@@ -4,6 +4,16 @@ Gestiona desde la terminal tus repositorios de **GitHub**, **GitLab** y **Bitbuc
 lístalos, busca, archiva, borra y, sobre todo, **genera sus descripciones con IA**
 (con tu suscripción de Claude, ChatGPT o Gemini, o con API key). Incluye una interfaz interactiva (TUI).
 
+![GitKeeper: la TUI con repos de GitHub, GitLab y Bitbucket](docs/screenshot.png)
+
+- **Todas tus cuentas en una lista**: GitHub, GitLab (también self-hosted) y Bitbucket Cloud.
+- **Descripciones con IA** a partir del README y los ficheros del repo, con topics sugeridos.
+  Las revisas y editas antes de aplicarlas.
+- **Sin pagar API** si ya tienes Claude Pro/Max, ChatGPT Plus/Pro o cuenta de Google; también
+  vale una API key o un modelo local (Ollama, LM Studio…).
+- **Mantenimiento rápido**: buscar, filtrar, archivar, borrar y abrir en el navegador, desde la
+  TUI o con comandos (`--json` para scripts).
+
 ## Instalación
 
 ```bash
@@ -110,6 +120,10 @@ Un `<repo>` puede indicarse como `nombre`, `owner/nombre`, `github:owner/nombre`
 
 ### TUI
 
+Con `d` (o el botón verde) la IA propone descripción y topics; puedes retocarlos antes de aplicar:
+
+![Propuesta de la IA en la TUI](docs/screenshot-ai.png)
+
 | Tecla | Acción |
 |---|---|
 | `/` | Buscar (Esc para limpiar) |
@@ -118,7 +132,7 @@ Un `<repo>` puede indicarse como `nombre`, `owner/nombre`, `github:owner/nombre`
 | `a` | Archivar / desarchivar |
 | `x` / `Supr` | Borrar (con botón CONFIRMAR) |
 | `o` | Abrir en el navegador |
-| `v` | Vista: activos → todos → archivados → sin descripción |
+| `f` | Filtros: estado, plataforma, visibilidad, lenguaje, descripción… |
 | `s` | Orden: actividad → creación → nombre → estrellas |
 | `r` | Recargar |
 | `q` | Salir |
