@@ -1,0 +1,109 @@
+#brand {
+    height: 3;
+    padding: 1 2 0 2;
+    background: $panel;
+    border-bottom: hkey $primary;
+}
+
+#logo {
+    width: 1fr;
+}
+
+#brand-info {
+    width: auto;
+    text-align: right;
+}
+
+#toolbar {
+    height: 3;
+    padding: 0 1;
+    margin-top: 1;
+}
+
+#filters {
+    width: 22;
+    margin-left: 1;
+}
+
+#search {
+    width: 1fr;
+}
+
+#actions {
+    height: auto;
+    margin: 1 0;
+}
+
+#actions Button {
+    width: 100%;
+    margin-bottom: 1;
+    text-style: bold;
+}
+
+#status {
+    height: 1;
+    padding: 0 2;
+    color: $text-muted;
+}
+
+#main {
+    height: 1fr;
+}
+
+#repos {
+    width: 3fr;
+    height: 1fr;
+}
+
+#detail-pane {
+    width: 1fr;
+    min-width: 30;
+    border-left: tall $primary 60%;
+    padding: 0 2;
+    background: $surface;
+    scrollbar-size-vertical: 1;
+}
+
+#detail {
+    width: 1fr;
+}
+
+ConfirmScreen, EditScreen {
+    align: center middle;
+    background: $background 60%;
+}
+
+.dialog {
+    width: 60;
+    height: auto;
+    padding: 1 2;
+    border: thick $primary;
+    background: $surface;
+}
+
+.dialog.wide {
+    width: 90%;
+    max-width: 120;
+}
+
+.dialog.danger {
+    border: thick $error;
+}
+
+.dialog-message {
+    margin-bottom: 1;
+}
+
+.dialog Label {
+    margin-top: 1;
+}
+
+.dialog-buttons {
+    height: auto;
+    margin-top: 1;
+    align-horizontal: right;
+}
+
+.dialog-buttons Button {
+    margin-left: 2;
+}

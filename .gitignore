@@ -1,0 +1,50 @@
+# Entornos virtuales
+.venv/
+venv/
+env/
+
+# Python
+__pycache__/
+*.py[cod]
+*.so
+*.egg-info/
+.eggs/
+build/
+dist/
+pip-wheel-metadata/
+
+# Tests y cobertura
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+
+# Linters / tipado
+.mypy_cache/
+.ruff_cache/
+.pyright/
+
+# Secretos y configuración local (tokens, API keys)
+.env
+.env.*
+!.env.example
+config.toml
+*.local.toml
+
+# Editores
+.vscode/
+.idea/
+*.swp
+*~
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Capturas temporales de la TUI
+preview.svg
+preview.png
+*.log
