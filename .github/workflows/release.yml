@@ -1,0 +1,83 @@
+name: Release
+
+# Publica un release con ejecutables para Windows, Linux y macOS
+# cada vez que se sube un tag de versión:
+#   git tag v0.1.0 && git push origin v0.1.0
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            asset: gitkeeper-windows-x64.exe
+            exe: gitkeeper.exe
+          - os: ubuntu-latest
+            asset: gitkeeper-linux-x64
+            exe: gitkeeper
+          - os: macos-latest
+            asset: gitkeeper-macos-arm64
+            exe: gitkeeper
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Instalar dependencias
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install ".[ai,dev]" pyinstaller
+
+      - name: Tests
+        run: python -m pytest -q
+
+      # Los SDK de IA se importan de forma diferida, así que hay que
+      # indicárselos a PyInstaller; el .tcss de la TUI va como dato.
+      - name: Compilar ejecutable
+        run: >
+          pyinstaller --noconfirm --onefile --name gitkeeper
+          --collect-all textual
+          --collect-submodules gitkeeper
+          --add-data "src/gitkeeper/tui/app.tcss:gitkeeper/tui"
+          --collect-submodules anthropic
+          --collect-submodules openai
+          --collect-submodules google.genai
+          src/gitkeeper/__main__.py
+
+      - name: Probar ejecutable
+        run: ./dist/${{ matrix.exe }} --help
+
+      - name: Renombrar
+        shell: bash
+        run: mv "dist/${{ matrix.exe }}" "dist/${{ matrix.asset }}"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.asset }}
+          path: dist/${{ matrix.asset }}
+
+  release:
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: dist
+          merge-multiple: true
+
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*
+          generate_release_notes: true
