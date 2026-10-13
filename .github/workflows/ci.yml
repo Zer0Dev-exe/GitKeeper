@@ -1,0 +1,57 @@
+# CI: se ejecuta en cada push a la rama principal y en cada PR.
+# Los PRs de Dependabot que pasan todos los jobs se mergean automáticamente.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Tests (Python)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: Instalar Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Instalar dependencias
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev]"
+      - name: Tests
+        run: python -m pytest -q
+
+  # Si todos los jobs anteriores pasan y el PR es de Dependabot, se hace merge solo.
+  # Las subidas de versión major se quedan abiertas para revisarlas a mano.
+  automerge:
+    name: Auto-merge Dependabot
+    needs: [test]
+    if: github.event_name == 'pull_request' && github.event.pull_request.user.login == 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      actions: write
+    steps:
+      - name: Leer datos del PR de Dependabot
+        id: meta
+        uses: dependabot/fetch-metadata@v2
+      - name: Merge (patch/minor o seguridad no-major)
+        if: steps.meta.outputs.update-type != 'version-update:semver-major'
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr merge "$PR_URL" --squash --delete-branch
