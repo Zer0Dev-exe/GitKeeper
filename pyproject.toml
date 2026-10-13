@@ -15,7 +15,7 @@ dependencies = [
     "httpx>=0.27",
     "textual>=0.80",
     "tomli-w>=1.0",
-    "platformdirs>=4",
+    "platformdirs>=4.12.4",
 ]
 
 [project.optional-dependencies]
