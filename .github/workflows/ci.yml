@@ -47,7 +47,7 @@ jobs:
     steps:
       - name: Leer datos del PR de Dependabot
         id: meta
-        uses: dependabot/fetch-metadata@v2
+        uses: dependabot/fetch-metadata@v3
       - name: Merge (patch/minor o seguridad no-major)
         if: steps.meta.outputs.update-type != 'version-update:semver-major'
         env:
