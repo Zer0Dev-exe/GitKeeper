@@ -13,7 +13,7 @@ dependencies = [
     "typer>=0.27.3",
     "rich>=13",
     "httpx>=0.27",
-    "textual>=0.80",
+    "textual>=8.2.8",
     "tomli-w>=1.0",
     "platformdirs>=4.12.4",
 ]
