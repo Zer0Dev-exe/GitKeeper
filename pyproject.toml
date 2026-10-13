@@ -23,7 +23,7 @@ claude = ["anthropic>=1.13.0"]
 gemini = ["google-genai>=1.0"]
 openai = ["openai>=3.28.0"]
 ai = ["anthropic>=1.13.0", "google-genai>=1.0", "openai>=3.28.0"]
-dev = ["pytest>=8", "pytest-asyncio>=1.4.0", "respx>=0.21"]
+dev = ["pytest>=9.1.1", "pytest-asyncio>=1.4.0", "respx>=0.21"]
 
 [project.scripts]
 gitkeeper = "gitkeeper.cli:main"
